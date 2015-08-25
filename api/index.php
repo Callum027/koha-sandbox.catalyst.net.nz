@@ -1,6 +1,8 @@
 <?php
 
-echo "Hello, world!\n\n";
+echo "<p>Hello, world!
+
+</p>";
 phpinfo();
 
 ?>
