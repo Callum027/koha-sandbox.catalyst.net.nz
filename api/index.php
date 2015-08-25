@@ -1,5 +1,6 @@
-<? php
+<?php
 
-echo "Hello, world! Verb is $verb";
+echo "Hello, world!\n\n";
+phpinfo();
 
 ?>
