@@ -124,8 +124,6 @@ article h1 {
   color:#4A4A4A;
 }
 
-
-
 article p {
 	font-size:18px;
 }
@@ -159,10 +157,12 @@ div .no-mobile p {
 
 /* styling for form*/
 #domain {
-	display:block;
-	margin: 8px auto; 
+	width: 500px; 
+	margin: 60px auto; 
+	padding: 60px 30px; 
     border: 1px solid #e1e1e1; 
 	font-family: 'Helvetica Neue',Helvetica,sans-serif;
+	text-align:center;
 }
 
 label {
@@ -170,19 +170,22 @@ label {
 	clear: left; 
 	margin: 11px 20px 0 0; 
 	width: 95px;
-	text-align:center; 
-	font-size: 15.5px; 
-	
+	text-align: right; 
+	font-size: 16px; 
+	text-transform: uppercase; 
 }
 
 input {
 	width: 160px; 
-	height: 15px; 
-	padding: 8px; 
-	margin: 0 0 20px 0; 
+	height: 30px; 
+	padding: 5px 20px 0px 20px; 
+	margin: 0 0 20px 0;  
 	background-color:#e0dde0;
 	color:#000000;
 	border: 1px solid #d1d1d1;
+	display:inline-block;
+	font-size:15.5px;
+	
 
 }
 
@@ -193,7 +196,9 @@ input:focus {
 }
 
 
-button {
+input[type=submit] {
+   width: 100px; 
+   height: 42px; 
    border: 1px solid #000000;
    background: #8cef29;
    background: -webkit-gradient(linear, left top, left bottom, from(#5bad3f), to(#8cef29));
@@ -216,5 +221,15 @@ button {
    text-decoration: none;
    vertical-align: middle;
    font-weight:bold;
-   float:center-right;
+   float:right;
 }
+
+/*Mobile only*/
+.mobile-only {
+	display:none;
+}
+
+ul .mobile-only {
+	display:none;
+}
+

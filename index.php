@@ -53,10 +53,9 @@
 			<p>Hello and welcome to the Koha as a Service webpage. To register a domain please fill out all fields in the form below.</p>
 			
 		<h1>Register a domain</h1>
+			<p>Please note that all fields <strong>must</strong> be filled out before you can register a domain.</p>
 			
 		<div id="domain">
-		
-		<center>
 			<form name="register" form action="confirm.php" onsubmit="return password()" method="post">
 		
 				<p>
@@ -84,34 +83,39 @@
 					<input type="email" name="email" required>
 				</p>
 				
+					
+				
 				<p>
 					<label for "password">Password</label>
-					<input type="password" name="pword" required>
+					<input id="pass1" type="password" name="pword" required>
 				</p>
 				
 				<p>
 				
 					<label for "confirmpassword">Confirm password</label>
-					<input type="password" name="confirmpword" required >
+					<input id="pass2" type="password" name="confirmpword" required >
 				</p>
+				<div id="password"></div> <!---this is where the password error will show--->
 				
-			<script>
-			function password() {
-				var pass1 = document.getElementById("pass1").value;
-				var pass2 = document.getElementById("pass2").value;
-				if (pass1 != pass2) {
-					//alert("Passwords Do not match");
-					document.getElementById("pass1").style.borderColor = "#E34234";
-					document.getElementById("pass2").style.borderColor = "#E34234";
+				
+				
+			<script><!---javascript to check if passwords match--->
+				function password() {
+					var pass1 = document.getElementById("pass1").value;
+					var pass2 = document.getElementById("pass2").value;
+					if (pass1 != pass2) {
+						$("#password").html("<p>passwords don't match</p>");
+						document.getElementById("pass1").style.borderColor = "#E34234";
+						document.getElementById("pass2").style.borderColor = "#E34234";
+					}
+					else {
+						alert("Passwords Match!!!");
+					}
+					return ok;
 				}
-				else {
-					alert("Passwords Match!!!");
-				}
-				return ok;
-			}
 			</script>
-				<button onclick="validate"()>Submit</button>
-			</center>
+			
+				<input type="submit" value="Submit">
 				
 			</form>
 		</div>
@@ -124,12 +128,8 @@
 	  <a class="mobile-only" href="#jumptop" >Back to top</a>-->
 
 	<footer>
-		<!---<ul class "mobile-only"> <!---This menu will appear on mobile only--->
-		  <!---<li><a href="registration.php">Register a domain</a></li>
-		  <li><a href="koha-community.org">Koha main webpage</a></li>
-		  <li><a href="http://dashboard.koha-community.org/">Koha Dashboard</a></li>
-		</ul>--->
+	
 		<div class="no-mobile"><p>&copy; Callum Dickinson and Francesca Moore 2015 <?php echo date("d/m/Y");?></p></div> <!---copyright and date will not show on mobile--->
 	</footer>
 </body>
-</h
+<!---javascript function not running 28/08/15--->
