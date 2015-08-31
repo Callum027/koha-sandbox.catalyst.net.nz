@@ -24,6 +24,9 @@
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
+    
+    <!---load jquery---><script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
 </head>
 
 <body>
@@ -53,46 +56,46 @@
 			<p>Hello and welcome to the Koha as a Service webpage. To register a domain please fill out all fields in the form below.</p>
 			
 		<h1>Register a domain</h1>
-			<p>Please note that all fields <strong>must</strong> be filled out before you can register a domain.</p>
+			<p>Please note that all fields <strong>must</strong> be filled out before you can register a domain.Please do not refesh this page until all information is correct - you will lose your form data.</p>
 			
 		<div id="domain">
-			<form name="register" form action="confirm.php" onsubmit="return password()" method="post">
+			<form name="register" onSubmit=" return password()" method="post">
 		
 				<p>
 					<label for="firstname">First name</label>
-					<input type="text" name="firstname" required <!---makes field a requirment--->
+					<input id="name" type="text" name="firstname" required> <!---makes field a requirment--->
 				
 				</p>
 				<p>
 					<label for="surname">Surname</label>
-					<input type="text" name="surname" required>
+					<input id="lastname" type="text" name="surname" required>
 				</p>
 				
 				<p>
 					<label for="sitename">Site name</label>
-					<input type="text" name="sitename" required>
+					<input id="site" type="text" name="sitename" required>
 				</p>
 				
 				<p>
 					<label for="domain">Base domain</label>
-					<input type="text" name="domain" required>
+					<input id="domain1" type="text" name="domain" required>
 				</p>
 				
 				<p> 
 					<label for="email">Email adress</label>
-					<input type="email" name="email" required>
+					<input id="email" type="email" name="email" required>
 				</p>
 				
 					
 				
 				<p>
-					<label for "password">Password</label>
+					<label for="password">Password</label>
 					<input id="pass1" type="password" name="pword" required>
 				</p>
 				
 				<p>
 				
-					<label for "confirmpassword">Confirm password</label>
+					<label for="confirmpassword">Confirm password</label>
 					<input id="pass2" type="password" name="confirmpword" required >
 				</p>
 				<div id="password"></div> <!---this is where the password error will show--->
@@ -105,17 +108,24 @@
 					var pass2 = document.getElementById("pass2").value;
 					if (pass1 != pass2) {
 						$("#password").html("<p>passwords don't match</p>");
-						document.getElementById("pass1").style.borderColor = "#E34234";
-						document.getElementById("pass2").style.borderColor = "#E34234";
-					}
-					else {
-						alert("Passwords Match!!!");
-					}
-					return ok;
-				}
-			</script>
+                            document.getElementById("pass1").style.borderColor = "#E34234";
+                            document.getElementById("pass2").style.borderColor = "#E34234";
+                        }
+                        else {
+                            sessionStorage.setItem("name", document.getElementById("name").value);
+                            sessionStorage.setItem("lastname", document.getElementById("lastname").value);
+                            sessionStorage.setItem("site", document.getElementById("site").value);
+                            sessionStorage.setItem("domain1", document.getElementById("domain1").value);
+                            sessionStorage.setItem("email", document.getElementById("email").value);
+                             window.location.href = "hold.php";
+
+                        }
+                        return false;
+
+                    }
+                </script>
 			
-				<input type="submit" value="Submit">
+				<input type="submit"  value="Submit">
 				
 			</form>
 		</div>
@@ -132,4 +142,3 @@
 		<div class="no-mobile"><p>&copy; Callum Dickinson and Francesca Moore 2015 <?php echo date("d/m/Y");?></p></div> <!---copyright and date will not show on mobile--->
 	</footer>
 </body>
-<!---javascript function not running 28/08/15--->
