@@ -55,26 +55,26 @@
         <h1>Confirm your infomation</h1>
         <p>Please check that all the information you have entered is correct, then hit confirm to build your koha instance. If your information is not correct please follow the <a href="index.php">link</a> back to the homepage. Please note that your information will not be kept.</p>
       <div id="register">
-			<form name="register"  method="post">
+			<form name="register" action="hold.php" method="post">
 		
 				<p>
 					<label for="firstname">First name</label>
-					<input type="text" name="firstname" required> <!---makes field a requirment--->
+					<input id="insertname" type="text" name="firstname" readonly> <!---makes field a requirment--->
 				
 				</p>
 				<p>
 					<label for="surname">Surname</label>
-					<input type="text" name="surname" readonly>
+					<input id="insertlastname" type="text" name="surname" readonly>
 				</p>
 				
 				<p>
 					<label for="sitename">Site name</label>
-					<input type="text" name="sitename" readonly>
+					<input id="insertsite" type="text" name="sitename" readonly>
 				</p>
 				
 				<p>
 					<label for="domain">Base domain</label>
-					<input  type="text" name="domain" readonly>
+					<input id="insertdomain" type="text" name="domain" readonly>
 				</p>
 				
 				<p> 
@@ -83,18 +83,6 @@
 				</p>
 				
 					
-				
-				<p>
-					<label for="password">Password</label>
-					<input id="pass1" type="password" name="pword" readonly>
-				</p>
-				
-				<p>
-				
-					<label for="confirmpassword">Confirm password</label>
-					<input id="pass2" type="password" name="confirmpword" readonly >
-				</p>
-				<div id="password"></div> <!---this is where the password error will show--->
 
 				
 				<input type="submit"  value="confirm">
@@ -104,10 +92,14 @@
 	
 
 <script>
-document.getElementById("insertemail").value = sessionStorage.getItem("email");
+document.getElementById("insertname").value = sessionStorage.getItem("name");
+    document.getElementById("insertlastname").value = sessionStorage.getItem("lastname");
+    document.getElementById("insertsite").value = sessionStorage.getItem("site");
+document.getElementById("insertdomain").value = sessionStorage.getItem("domain1");
+    document.getElementById("insertemail").value = sessionStorage.getItem("email");
 </script>
         
-		
+	                            
 		
 	</article>
 

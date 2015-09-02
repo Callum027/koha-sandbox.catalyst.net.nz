@@ -204,14 +204,16 @@ input{
 
 }
 
-input:focus {
+input:focus,
+#register input:focus;{
 	  background: #fff;
 	  color: #000000;
 	
 }
 
 
-input[type=submit] {
+input[type=submit],
+#register input[type=submit]{
    width: 100px; 
    height: 42px; 
    border: 1px solid #000000;
@@ -238,8 +240,6 @@ input[type=submit] {
    font-weight:bold;
    float:right;
 }
-
-
 
 
 img {
