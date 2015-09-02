@@ -155,8 +155,9 @@ div .no-mobile p {
 	
 }
 
-/* styling for form*/
-#domain {
+/* styling for forms*/
+#domain,
+#register{
 	width: 500px; 
 	margin: 60px auto; 
 	padding: 60px 30px; 
@@ -175,7 +176,7 @@ label {
 	text-transform: uppercase; 
 }
 
-input {
+input{
 	width: 160px; 
 	height: 30px; 
 	padding: 5px 20px 0px 20px; 
@@ -185,6 +186,20 @@ input {
 	border: 1px solid #d1d1d1;
 	display:inline-block;
 	font-size:15.5px;
+	
+
+}
+
+#register input{
+	width: 160px; 
+	height: 30px; 
+	padding: 5px 20px 0px 20px; 
+	margin: 0 0 20px 0;  
+	background-color:#e0dde0;
+	color:#000000;
+	border: 1px solid #d1d1d1;
+	display:inline-block;
+	font-size:14px;
 	
 
 }
@@ -224,6 +239,16 @@ input[type=submit] {
    float:right;
 }
 
+
+
+
+img {
+    display: inline; 
+    float: left;
+    margin-right: 10px;
+}
+
+
 /*Mobile only*/
 .mobile-only {
 	display:none;
@@ -232,4 +257,6 @@ input[type=submit] {
 ul .mobile-only {
 	display:none;
 }
+
+
 

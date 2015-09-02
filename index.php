@@ -32,10 +32,11 @@
 <body>
 	<div id="container"> <!--this holds everything-->
 	  <header>
-	   <hgroup>
-		<h1><i>Koha as a Service</i></h1>
-		<h2 class="no-mobile">You are here: home</h2>
-	   </hgroup>
+        <img src="assets/koha.png" alt="koha logo"/>
+        <hgroup>
+            <h1><i>Koha as a Service</i></h1>
+            <h2>You are here: registration/home</h2>
+        </hgroup>
 	  </header>
 
 	  <nav class="no-mobile">
@@ -56,7 +57,7 @@
 			<p>Hello and welcome to the Koha as a Service webpage. To register a domain please fill out all fields in the form below.</p>
 			
 		<h1>Register a domain</h1>
-			<p>Please note that all fields <strong>must</strong> be filled out before you can register a domain.Please do not refesh this page until all information is correct - you will lose your form data.</p>
+			<p>Please note that all fields <strong>must</strong> be filled out before you can register a domain. Please do not refesh this page until all information is correct - you will lose your form data.</p>
 			
 		<div id="domain">
 			<form name="register" onSubmit=" return password()" method="post">
@@ -117,7 +118,7 @@
                             sessionStorage.setItem("site", document.getElementById("site").value);
                             sessionStorage.setItem("domain1", document.getElementById("domain1").value);
                             sessionStorage.setItem("email", document.getElementById("email").value);
-                             window.location.href = "hold.php";
+                             window.location.href = "confirm.php";
 
                         }
                         return false;

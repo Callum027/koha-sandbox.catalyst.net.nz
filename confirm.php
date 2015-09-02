@@ -24,6 +24,9 @@
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
+    
+    <!---load jquery---><script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    
 </head>
 
 <body>
@@ -49,8 +52,61 @@
 	<article>
 		<!---<a  class="mobile-only" href="#jumpbottom" >To Navigation</a>
 		<a class="mobile-only" name="jumptop"></a> <!---these links are for mobile only, they allow easy navigation whilst on a mobile device.--->
-        <h1>Progress</h1>
-        <p>Your domain is being registered please wait</p>
+        <h1>Confirm your infomation</h1>
+        <p>Please check that all the information you have entered is correct, then hit confirm to build your koha instance. If your information is not correct please follow the <a href="index.php">link</a> back to the homepage. Please note that your information will not be kept.</p>
+      <div id="register">
+			<form name="register"  method="post">
+		
+				<p>
+					<label for="firstname">First name</label>
+					<input type="text" name="firstname" required> <!---makes field a requirment--->
+				
+				</p>
+				<p>
+					<label for="surname">Surname</label>
+					<input type="text" name="surname" readonly>
+				</p>
+				
+				<p>
+					<label for="sitename">Site name</label>
+					<input type="text" name="sitename" readonly>
+				</p>
+				
+				<p>
+					<label for="domain">Base domain</label>
+					<input  type="text" name="domain" readonly>
+				</p>
+				
+				<p> 
+					<label for="email">Email adress</label>
+					<input id="insertemail" type="email" name="email" readonly>
+				</p>
+				
+					
+				
+				<p>
+					<label for="password">Password</label>
+					<input id="pass1" type="password" name="pword" readonly>
+				</p>
+				
+				<p>
+				
+					<label for="confirmpassword">Confirm password</label>
+					<input id="pass2" type="password" name="confirmpword" readonly >
+				</p>
+				<div id="password"></div> <!---this is where the password error will show--->
+
+				
+				<input type="submit"  value="confirm">
+				
+			</form>
+		</div>
+	
+
+<script>
+document.getElementById("insertemail").value = sessionStorage.getItem("email");
+</script>
+        
 		
 		
 	</article>
