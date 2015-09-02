@@ -19,11 +19,6 @@ div#container {
   margin: 35px auto;
   padding: 2px;
   background-color:white;
-  /*-moz-border-radius: 15px 0px 0px 0px;
-  -webkit-border-radius: 15px 0px 0px 0px;
-  border-radius: 15px 0px 0px 0px;
-  /*opacity:0.85;
-  filter:alpha(opacity=85); /* For IE8 and earlier */
 }
 
 /** Header **/
@@ -127,6 +122,15 @@ article h1 {
 article p {
 	font-size:18px;
 }
+
+#small {
+    font-size:14px
+}
+
+article a{
+  color:#0066FF;  
+}
+
 footer {
   clear:both; /*This clears the floated content above so the footer sits where it should, at the bottom of the page*/
   margin: 0;
@@ -141,11 +145,11 @@ footer {
     background-image: -ms-linear-gradient(top, #585858, #3d3d3d);
     background-image: -o-linear-gradient(top, #585858, #3d3d3d);
 background-image: linear-gradient(top, #585858, #3d3d3d);
-    color: #ffff;
+    color: #fff;
 }
 
 footer p {
-  color: #ffff;
+  color: #fff;
   text-decoration: none;
 }
 
@@ -181,7 +185,7 @@ input{
 	height: 30px; 
 	padding: 5px 20px 0px 20px; 
 	margin: 0 0 20px 0;  
-	background-color:#e0dde0;
+	background-color:#EDEDED;
 	color:#000000;
 	border: 1px solid #d1d1d1;
 	display:inline-block;
@@ -195,8 +199,8 @@ input{
 	height: 30px; 
 	padding: 5px 20px 0px 20px; 
 	margin: 0 0 20px 0;  
-	background-color:#e0dde0;
-	color:#000000;
+	background-color:#EDEDED;
+	font-color:#000000;
 	border: 1px solid #d1d1d1;
 	display:inline-block;
 	font-size:14px;
@@ -204,15 +208,9 @@ input{
 
 }
 
-input:focus,
-#register input:focus;{
-	  background: #fff;
-	  color: #000000;
-	
-}
 
 
-input[type=submit],
+input[type=submit], 
 #register input[type=submit]{
    width: 100px; 
    height: 42px; 
@@ -241,7 +239,18 @@ input[type=submit],
    float:right;
 }
 
+input:focus{
+	  background: #fff;
+	  font-color: #000000;
+	
+}
 
+#register input:focus{
+    background: #fff;
+    font-color: #000000;
+}
+
+/*image styling*/
 img {
     display: inline; 
     float: left;

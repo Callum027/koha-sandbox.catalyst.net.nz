@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="css/mobile.css" media="only all and (max-width: 480px)" />
 	<link rel="stylesheet" href="css/tablet.css" media="only all and (min-width: 481px)" />
 	<link rel="stylesheet" href="css/styles.css" media="only all and (min-width: 960px)" />
-	<link rel="stylesheet" href="css/default.css" /> <!---works in conjuction with mobile and tablet style sheets--->
+	<link rel="stylesheet" href="css/default.css" media="only all and (min-width: 480px") /><!---works in conjuction with mobile and tablet style sheets--->
 	<!-- the following script operates for older browsers incl. mobile -->
 	<!--[if lt IE 9 & !IEMobile]>
 			<link rel="stylesheet" href="css/mobile.css" />
@@ -50,8 +50,8 @@
 
 
 	<article>
-		<a  class="mobile-only" href="#jumpbottom" >To Navigation</a>
-		<a class="mobile-only" name="jumptop"></a> <!---these links are for mobile only, they allow easy navigation whilst on a mobile device.---> 
+		<a id="easynav" class="mobile-only" href="#jumpbottom" >To Navigation</a>
+		<a id="easynav" class="mobile-only" name="jumptop"></a> <!---these links are for mobile only, they allow easy navigation whilst on a mobile device.---> 
 		
 		<h1>Welcome</h1>
 			<p>Hello and welcome to the Koha as a Service webpage. To register a domain please fill out all fields in the form below.</p>
@@ -134,8 +134,8 @@ required>
 	</article>
 
 
-	  <a class="mobile-only" name="jumpbottom"></a>
-	  <a class="mobile-only" href="#jumptop" >Back to top</a>
+	  <a id="easynav" class="mobile-only" name="jumpbottom"></a>
+	  <a id="easynav" class="mobile-only" href="#jumptop" >Back to top</a>
 
 	<footer>
         <ul class="mobile-only">

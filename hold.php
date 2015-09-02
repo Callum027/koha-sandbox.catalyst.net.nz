@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="css/mobile.css" media="only all and (max-width: 480px)" />
 	<link rel="stylesheet" href="css/tablet.css" media="only all and (min-width: 481px)" />
 	<link rel="stylesheet" href="css/styles.css" media="only all and (min-width: 960px)" />
-	<link rel="stylesheet" href="css/default.css" /> <!---works in conjuction with mobile and tablet style sheets--->
+	<link rel="stylesheet" href="css/default.css" media="only all and (min-width: 480px") /> <!---works in conjuction with mobile and tablet style sheets--->
 	<!-- the following script operates for older browsers incl. mobile -->
 	<!--[if lt IE 9 & !IEMobile]>
 			<link rel="stylesheet" href="css/mobile.css" />
@@ -32,7 +32,7 @@
       <img src="assets/koha.png" alt="koha logo"/>
 	   <hgroup>
 		<h1><i>Koha as a Service</i></h1>
-		<h2 class="no-mobile">You are here: hold</h2>
+		<h2>You are here: hold</h2>
 	   </hgroup>
 	  </header>
 
@@ -47,17 +47,18 @@
 
 
 	<article>
-		<!---<a  class="mobile-only" href="#jumpbottom" >To Navigation</a>
+		<a  class="mobile-only" href="#jumpbottom" >To Navigation</a>
 		<a class="mobile-only" name="jumptop"></a> <!---these links are for mobile only, they allow easy navigation whilst on a mobile device.--->
-        <h1>Progress</h1>
-        <p>Your domain is being registered please wait</p>
+        
+        <p>Your koha instance is being built please wait. The page will automatically refresh and redirect you when this is complete.</p>
+        <p id="small"><i>This may take a few minutes...</i></p>
 		
 		
 	</article>
 
 
-	  <!---<a class="mobile-only" name="jumpbottom"></a>
-	  <a class="mobile-only" href="#jumptop" >Back to top</a>-->
+	  <a class="mobile-only" name="jumpbottom"></a>
+	  <a class="mobile-only" href="#jumptop" >Back to top</a>
 
 	<footer>
 	
