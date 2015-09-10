@@ -84,9 +84,9 @@ class Site
 	{
 		$ret = false;
 
-		$host = "db.kohaaas.catalyst.net.nz";
-		$username = "";
-		$passwd = "kohaaas.catalyst.net.nz";
+		$host = ;
+		$username = ;
+		$passwd = ;
 
 		$conn = mysqli_connect($host, $username, $passwd, $database);
 
