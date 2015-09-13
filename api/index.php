@@ -11,6 +11,8 @@ use Phalcon\Mvc\Micro;
 # Global static configuration variables.
 ##
 
+const REG_QUEUE_FLUSH_FREQUENCY = 60;
+
 const LOCAL_SITES_DIR = "/tmp/koha-sites";
 const LOCAL_SITES_DIR_CREATE_MODE = 0600;
 
@@ -156,13 +158,16 @@ function update_schedule()
 # The REST API to collect site information from users.
 ##
 
+# Queue of site registration requests.
+$reg_queue = new SplQueue();
+
 ##
 # Update the instances.
 ##
 
 $app = new Micro();
 
-$app->get("/api/register", function ()
+$app->post("/api/register", function ()
 {
 	# Get the new site information from the JSON object.
 	
@@ -193,6 +198,10 @@ $app->get("/api/register", function ()
 	}
 });
 
+##
+# Start-up process. Set up the application 
 $app->handle();
+
+
 
 ?>
