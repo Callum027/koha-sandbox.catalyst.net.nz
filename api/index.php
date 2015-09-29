@@ -46,6 +46,21 @@ class Site
 		$this->password = $args[5];
 	}
 
+	function register()
+	{
+		$sql = "CALL add_koha_site(" .
+			$first_name . ", " .
+			$surname . ", " .
+			$email . ", " .
+			$password . ", " .
+			$opac_server_name . ", " .
+			$intra_server_name . ")";
+
+		$mysqli = new mysqli($hostname, $username, $password, $database);
+
+		$mysqli->query($sql);
+	}
+
 	function export()
 	{
 		$data = array
