@@ -75,30 +75,7 @@ class Site
 		unlink($local_file);
 	}
 
-	function check_db()
-	{
-		return !empty(system("puppet query nodes 'Koha::Db::Site[\"$site_name\"]'"));
-	}
 
-	function check_zebra()
-	{
-		return !empty(system("puppet query nodes 'Koha::Zebra::Site[\"$site_name\"]'"));
-	}
-
-	function check_memcached()
-	{
-		return !empty(system("puppet query nodes 'Koha::Memcache::Site[\"$site_name\"]'"));
-	}
-
-	function check_koha()
-	{
-		return !empty(system("puppet query nodes 'Koha::Koha::Site[\"$site_name\"]'"));
-	}
-
-	function check_proxy()
-	{
-		return !empty(system("puppet query nodes 'Koha::Proxy::Site[\"$site_name\"]'"));
-	}
 }
 
 ##
@@ -167,31 +144,154 @@ $reg_queue = new SplQueue();
 
 $app = new Micro();
 
-$app->post("/api/register", function()
+##
+# Helper functions.
+##
+
+function prepare_statement($response, $mysqli, $query)
+{
+	if (!($statement = $mysqli->prepare($query)))
+	{
+		# 503 Internal Server Error
+		# $mysqli->errno
+		# $mysqli->error
+	}
+
+	return $statement;
+}
+
+function bind_param($response, $statement, $param, $value)
+{
+	if (!($ret = $statement->bind_param($param, $value)))
+	{
+		# 503 Internal Server Error
+		# $statement->errno
+		# $statement->error
+	}
+
+	return $ret;
+}
+
+function execute_statement($response, $statement)
+{
+	if (!($ret = $statement->execute()))
+	{
+		# 503 Internal Server Error
+		# $statement->errno
+		# $statement->error
+	}
+
+	return $ret;
+}
+
+##
+# Parameter checking functions.
+##
+
+function opac_server_name_exists($response, $mysqli, $opac_server_name)
+{
+	if (!($statement = prepare_statment($response, $mysqli, "CALL opac_server_name_exists(?)"))
+		return NULL;
+
+	if (!bind_param($response, $statement, "opac_server_name", $opac_server_name))
+		return NULL;
+
+	if (!execute_statement($response, $statement))
+		return NULL;
+
+	# http://php.net/manual/en/class.mysqli-result.php
+}
+
+function intra_server_name_exists($response, $mysqli, $intra_server_name)	
+{
+	"CALL check_for_intra_server_name(?)"
+}
+
+##
+# Status checking functions.
+##
+
+function check_db($id)
+{
+	return !empty(system("puppet query nodes 'Site::Roles::Db::Site[\"$id\"]'"));
+}
+
+function check_cachedb($id)
+{
+	return !empty(system("puppet query nodes 'Site::Roles::Cachedb::Site[\"$id\"]'"));
+}
+
+function check_koha($id)
+{
+	return !empty(system("puppet query nodes 'Site::Roles::Koha::Site[\"$id\"]'"));
+}
+
+function check_proxy($id)
+{
+	return !empty(system("puppet query nodes 'Site::Roles::Prox::Site[\"$id\"]'"));
+}
+
+##
+# Responses to requests.
+##
+
+$app->post("/api/register", function() use($app)
 {
 	# Start building the response.
 	$response = new Response();
 
 	# Get the new site information from the JSON object.
-	
+	$object = json_decode($app->request->getJsonRawbody());
+
+	$first_name = $object->{"first_name"};
+	$surname = $object->{"surname"};
+	$email = $object->{"email"};
+	$password = $object->{"password"};
+	$opac_server_name = $object->{"opac_server_name"};
+	$intra_server_name = $object->{"intra_server_name"};
+
 	if
 	{
-		$add_koha_site = "CALL add_koha_site(" .
-			$first_name . ", " .
-			$surname . ", " .
-			$email . ", " .
-			$password . ", " .
-			$opac_server_name . ", " .
-			$intra_server_name . ")";
-
 		$get_koha_site_id = "CALL get_koha_site_id(" .
 			$opac_server_name . ", " .
 			$intra_server_name . ")";
 
 		$mysqli = new mysqli($hostname, $username, $password, $database);
 
+		##
+		# Check validity of the parameters with the database.
+		##
+
+		# opac_server_name - check that there is no site with the given one already.
+		if (
+
+		# intra_server_name - check that there is no site with the given one already.
+
 		# Register the Koha site with the registration database.
-		$results = $mysqli->query($add_koha_site);
+		if (!($statement = prepare_statement($response, $mysqli, "CALL add_koha_site(?)")))
+			return;
+
+		if (!bind_param($response, $statement, "first_name", $first_name))
+			return;
+
+		if (!bind_param($response, $statement, "surname", $surname))
+			return;
+
+		if (!bind_param($response, $statement, "email", $email))
+			return;
+
+		if (!bind_param($response, $statement, "password", $password))
+			return;
+
+		if (!bind_param($response, $statement, "opac_server_name", $opac_server_name))
+			return;
+
+		if (!bind_param($response, $statement, "intra_server_name", $intra_server_name))
+			return;
+
+		if (!execute_statement($response, $statement))
+			return;
+
 
 		if
 		{
