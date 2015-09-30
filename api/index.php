@@ -167,11 +167,14 @@ $reg_queue = new SplQueue();
 
 $app = new Micro();
 
-$app->post("/api/register", function ()
+$app->post("/api/register", function()
 {
+	# Start building the response.
+	$response = new Response();
+
 	# Get the new site information from the JSON object.
 	
-	# If the parameters are correct.
+	if
 	{
 		$add_koha_site = "CALL add_koha_site(" .
 			$first_name . ", " .
@@ -188,23 +191,41 @@ $app->post("/api/register", function ()
 		$mysqli = new mysqli($hostname, $username, $password, $database);
 
 		# Register the Koha site with the registration database.
-		$mysqli->query($add_koha_site);
+		$results = $mysqli->query($add_koha_site);
 
-		# Get the ID for the Koha site, and return it.
-		$mysqli->query($get_koha_site_id);
-
-		# Start building the response.
-		$response = new Response();
-
-		# 202 Accepted
-		if ($ret == 0)
+		if
 		{
-			$response->setStatusCode(202, "Accepted");
-			$response->setJsonContent("id" => $id);
+
+			# Get the ID for the Koha site, and return it.
+			$results = $mysqli->query($get_koha_site_id);
+
+			# Only get the ID and send an "Accepted" reply if we got a result back.
+			if ($results->num_rows == 1)
+			{
+				$id = $results->fetch_assoc()["id"];
+
+				# 202 Accepted
+				if ($ret == 0)
+				{
+					$response->setStatusCode(202, "Accepted");
+					$response->setJsonContent("id" => $id);
+				}
+			}
+			# 503 Internal Server Error
+			# If the client sent correct data, the site didn't already exist and it can't
+			# find the ID at this point, something else is wrong.
+			else
+			{
+			}
+		}
+		# 400 Bad Request
+		# The client submitted hostnames that already exist on Koha as a Service.
+		else
+		{
 		}
 	}
 	# 400 Bad Request
-	# 
+	# The client sent invalid data.
 	else
 	{
 	}
