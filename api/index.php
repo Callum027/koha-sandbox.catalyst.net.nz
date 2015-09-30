@@ -46,21 +46,6 @@ class Site
 		$this->password = $args[5];
 	}
 
-	function register()
-	{
-		$sql = "CALL add_koha_site(" .
-			$first_name . ", " .
-			$surname . ", " .
-			$email . ", " .
-			$password . ", " .
-			$opac_server_name . ", " .
-			$intra_server_name . ")";
-
-		$mysqli = new mysqli($hostname, $username, $password, $database);
-
-		$mysqli->query($sql);
-	}
-
 	function export()
 	{
 		$data = array
@@ -188,13 +173,25 @@ $app->post("/api/register", function ()
 	
 	# If the parameters are correct.
 	{
-		# Create a site object with the registered site's information, and export
-		# it to the Puppet Master.
-		$site = new Site()
-		$site.export();
+		$add_koha_site = "CALL add_koha_site(" .
+			$first_name . ", " .
+			$surname . ", " .
+			$email . ", " .
+			$password . ", " .
+			$opac_server_name . ", " .
+			$intra_server_name . ")";
 
-		# Schedule an update of the instances.
-		update_schedule();
+		$get_koha_site_id = "CALL get_koha_site_id(" .
+			$opac_server_name . ", " .
+			$intra_server_name . ")";
+
+		$mysqli = new mysqli($hostname, $username, $password, $database);
+
+		# Register the Koha site with the registration database.
+		$mysqli->query($add_koha_site);
+
+		# Get the ID for the Koha site, and return it.
+		$mysqli->query($get_koha_site_id);
 
 		# Start building the response.
 		$response = new Response();
@@ -203,7 +200,7 @@ $app->post("/api/register", function ()
 		if ($ret == 0)
 		{
 			$response->setStatusCode(202, "Accepted");
-			$response->setJsonContent("session" => $session);
+			$response->setJsonContent("id" => $id);
 		}
 	}
 	# 400 Bad Request
