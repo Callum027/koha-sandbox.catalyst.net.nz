@@ -8,77 +8,6 @@
 use Phalcon\Mvc\Micro;
 
 ##
-# Global static configuration variables.
-##
-
-const REG_QUEUE_FLUSH_FREQUENCY = 60;
-
-const LOCAL_SITES_DIR = "/tmp/koha-sites";
-const LOCAL_SITES_DIR_CREATE_MODE = 0600;
-
-const PUPPET_MASTER = "puppet.kohaaas.catalyst.net.nz";
-const PUPPET_MASTER_KOHA_SITES_DIR = "/vol/koha-sites";
-const PUPPET_MASTER_KOHA_SITES_CREATE_MODE = 0440;
-
-##
-# Classes.
-##
-
-class Site
-{
-	private $first_name;
-	private $surname;
-
-	private $site_name;
-
-	private $base_domain;
-
-	private $email;
-	private $password;
-
-	function __construct($args)
-	{
-		$this->first_name = $args[0];
-		$this->surname = $args[1];
-		$this->site_name = $args[2];
-		$this->base_domain = $args[3];
-		$this->email = $args[4];
-		$this->password = $args[5];
-	}
-
-	function export()
-	{
-		$data = array
-		(
-			"first_name"	=> $this->first_name,
-			"surname"	=> $this->surname,
-			"site_name"	=> $this->site_name,
-			"base_domain"	=> $this->base_domain,
-			"email"		=> $this->email,
-			"password"	=> $this->password,
-		);
-
-		$local_file = LOCAL_SITES_DIR . "/{$this->site_name}.yaml";
-		$remote_file = PUPPET_MASTER_KOHA_SITES_DIR . "/{$this->site_name}.yaml";
-
-		# Create the temporary directory (if it doesn't already exist), and set the correct permissions on it.
-		mkdir(LOCAL_SITES_DIR, LOCAL_SITES_DIR_CREATE_MODE);
-
-		# Create the yaml file with the site's information.
-		yaml_emit_file($local_file, $data);
-
-		# Open the SSH connection to the Puppet Master.
-		$session = ssh2_connect(PUPPET_MASTER);
-		ssh2_scp_send($session, $local_file, $remote_file, PUPPET_MASTER_KOHA_SITES_CREATE_MODE);
-
-		# Delete the local copy of the yaml file.
-		unlink($local_file);
-	}
-
-
-}
-
-##
 # Helper functions.
 ##
 
@@ -131,18 +60,6 @@ function update_schedule()
 	
 }
 
-##
-# The REST API to collect site information from users.
-##
-
-# Queue of site registration requests.
-$reg_queue = new SplQueue();
-
-##
-# Update the instances.
-##
-
-$app = new Micro();
 
 ##
 # Helper functions.
@@ -232,8 +149,10 @@ function check_proxy($id)
 }
 
 ##
-# Responses to requests.
+# The REST API to collect site information from users.
 ##
+
+$app = new Micro();
 
 $app->post("/api/register", function() use($app)
 {
