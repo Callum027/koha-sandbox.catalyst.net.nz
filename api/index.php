@@ -169,77 +169,75 @@ $app->post("/api/register", function() use($app)
 	$opac_server_name = $object->{"opac_server_name"};
 	$intra_server_name = $object->{"intra_server_name"};
 
+	# Check validity and safety of the parameters.
+
 	if
 	{
-		$get_koha_site_id = "CALL get_koha_site_id(" .
-			$opac_server_name . ", " .
-			$intra_server_name . ")";
-
-		$mysqli = new mysqli($hostname, $username, $password, $database);
-
-		##
-		# Check validity of the parameters with the database.
-		##
-
-		# opac_server_name - check that there is no site with the given one already.
-		if (
-
-		# intra_server_name - check that there is no site with the given one already.
-
-		# Register the Koha site with the registration database.
-		if (!($statement = prepare_statement($response, $mysqli, "CALL add_koha_site(?)")))
-			return;
-
-		if (!bind_param($response, $statement, "first_name", $first_name))
-			return;
-
-		if (!bind_param($response, $statement, "surname", $surname))
-			return;
-
-		if (!bind_param($response, $statement, "email", $email))
-			return;
-
-		if (!bind_param($response, $statement, "password", $password))
-			return;
-
-		if (!bind_param($response, $statement, "opac_server_name", $opac_server_name))
-			return;
-
-		if (!bind_param($response, $statement, "intra_server_name", $intra_server_name))
-			return;
-
-		if (!execute_statement($response, $statement))
-			return;
-
-
-		if
+		try
 		{
+			$mysqli = new mysqli($hostname, $username, $password, $database);
 
-			# Get the ID for the Koha site, and return it.
-			$results = $mysqli->query($get_koha_site_id);
+			##
+			# Register the Koha site with the registration database.
+			##
+			if (!($statement = prepare_statement($response, $mysqli, "CALL add_koha_site(?)")))
+				throw Exception("Unable to prepare SQL statement for adding the Koha site");
 
-			# Only get the ID and send an "Accepted" reply if we got a result back.
-			if ($results->num_rows == 1)
+			if (!bind_param($response, $statement, "first_name", $first_name))
+				throw Exception("Unable to bind the first name to the statement for adding the Koha site");
+
+			if (!bind_param($response, $statement, "surname", $surname))
+				throw Exception("Unable to bind the surname to the statement for adding the Koha site");
+
+			if (!bind_param($response, $statement, "email", $email))
+				throw Exception("Unable to bind the email address to the statement for adding the Koha site");
+
+			if (!bind_param($response, $statement, "password", $password))
+				throw Exception("Unable to bind the password to the statement for adding the Koha site");
+
+			if (!bind_param($response, $statement, "opac_server_name", $opac_server_name))
+				throw Exception("Unable to bind the OPAC server name to the statement for adding the Koha site");
+
+			if (!bind_param($response, $statement, "intra_server_name", $intra_server_name))
+				throw Exception("Unable to bind the intranet server name to the statement for adding the Koha site");
+
+			if (!execute_statement($response, $statement))
+				throw Exception("Unable to execute the statement for getting the Koha site ID");
+
+			if
 			{
-				$id = $results->fetch_assoc()["id"];
+				if (!($statement = prepare_statement($response, $mysqli, "CALL get_koha_site_id(?)")))
+					throw Exception("Unable to prepare SQL statement for getting the Koha site ID");
 
-				# 202 Accepted
-				if ($ret == 0)
+				if (!bind_param($response, $statement, "opac_server_name", $opac_server_name))
+					throw Exception("Unable to bind the OPAC server name to the statement for getting the Koha site ID");
+
+				if (!bind_param($response, $statement, "intra_server_name", $intra_server_name))
+					throw Exception("Unable to bind the intranet server name to the statement for getting the Koha site ID");
+
+				if (!(execute_statement($response, $statement)))
+					throw Exception("Unable to execute the statement for getting the Koha site ID");
+
+				$statement->bind_result($id);
+
+				# Only get the ID and send an "Accepted" reply if we got a result back.
+				if (($results = $mysqli->fetch()))
 				{
-					$response->setStatusCode(202, "Accepted");
-					$response->setJsonContent("id" => $id);
+					# 202 Accepted
+					if ($ret == 0)
+					{
+						$response->setStatusCode(202, "Accepted");
+						$response->setJsonContent("id" => $id);
+					}
 				}
-			}
-			# 503 Internal Server Error
-			# If the client sent correct data, the site didn't already exist and it can't
-			# find the ID at this point, something else is wrong.
-			else
-			{
+				else
+					throw Exception("Unable to get Koha site ID from OPAC/intra server name");
 			}
 		}
-		# 400 Bad Request
-		# The client submitted hostnames that already exist on Koha as a Service.
-		else
+		# 503 Internal Server Error
+		# If the client sent correct data, the site didn't already exist and it can't
+		# find the ID at this point, something else is wrong.
+		catch (Exception e)
 		{
 		}
 	}
