@@ -4,7 +4,6 @@
 # Use extensions.
 ##
 
-# PECL extensions: yaml, ssh2, phalcon
 use Phalcon\Mvc\Micro;
 
 ##
@@ -156,6 +155,8 @@ $app = new Micro();
 
 $app->post("/api/register", function() use($app)
 {
+	$respond = null;
+
 	# Start building the response.
 	$response = new Response();
 
@@ -169,9 +170,18 @@ $app->post("/api/register", function() use($app)
 	$opac_server_name = $object->{"opac_server_name"};
 	$intra_server_name = $object->{"intra_server_name"};
 
-	# Check validity and safety of the parameters.
+	# Check validity of the parameters.
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL) && $respond == null)
+		$respond = "Invalid email address";
 
-	if
+	if (!filter_var($opac_server_name, FILTER_VALIDATE_URL) && $respond == null)
+		$respond = "Invalid email address";
+
+	if (!filter_var($intra_server_name, FILTER_VALIDATE_URL) && $respond == null)
+		$respond = "Invalid email address";
+
+	# If all of the parameters are valid, 
+	if ($respond == null)
 	{
 		try
 		{
@@ -221,9 +231,10 @@ $app->post("/api/register", function() use($app)
 				$statement->bind_result($id);
 
 				# Only get the ID and send an "Accepted" reply if we got a result back.
+				# 202 Accepted
 				if (($results = $mysqli->fetch()))
 				{
-					# 202 Accepted
+					
 					if ($ret == 0)
 					{
 						$response->setStatusCode(202, "Accepted");
@@ -239,19 +250,18 @@ $app->post("/api/register", function() use($app)
 		# find the ID at this point, something else is wrong.
 		catch (Exception e)
 		{
+			$response->setStatusCode(503, "Internal Server Error");
 		}
 	}
 	# 400 Bad Request
 	# The client sent invalid data.
 	else
 	{
+		$response->setStatusCode(400, "Bad Request");
+		$response->setJsonContent("message", $respond);
 	}
 });
 
-##
-# Start-up process. Set up the application 
 $app->handle();
-
-
 
 ?>
