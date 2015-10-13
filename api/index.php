@@ -4,7 +4,7 @@
 # Included files.
 ##
 
-include '/database.inc.php';
+include 'database.inc.php';
 
 ##
 # Use extensions.
