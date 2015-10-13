@@ -26,21 +26,6 @@ function is_valid_domain_name($domain_name)
 		&& preg_match("/^[^\.]{1,63}(\.[^\.]{1,63})*$/", $domain_name));			// Valid label length
 }
 
-function prepare_statement($response, $mysqli, $query)
-{
-	return $mysqli->prepare($query);
-}
-
-function bind_param($response, $statement, $param, $value)
-{
-	return $statement->bind_param($param, $value);
-}
-
-function execute_statement($response, $statement)
-{
-	return $statement->execute();
-}
-
 ##
 # Status checking functions.
 ##
@@ -88,10 +73,14 @@ $app->post("/register", function() use($app)
 		$surname = $object->{"surname"};
 		$email = $object->{"email"};
 		$password = $object->{"password"};
+		$confirm_password = $object->{"confirm_password"};
 		$opac_server_name = $object->{"opac_server_name"};
 		$intra_server_name = $object->{"intra_server_name"};
 
 		# Check validity of the parameters.
+		if ($password !== $confirm_password && $respond == null)
+			$respond = "Mismatching passwords";
+
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL) && $respond == null)
 			$respond = "Invalid email address";
 
@@ -112,45 +101,27 @@ $app->post("/register", function() use($app)
 			##
 			# Register the Koha site with the registration database.
 			##
-			if (!($statement = prepare_statement($response, $mysqli, "CALL add_koha_site(?)")))
-				throw new Exception("Unable to prepare SQL statement for adding the Koha site");
+			if (!($statement = $mysqli->prepare("CALL add_koha_site(?, ?, ?, ?, ?, ?)")))
+				throw new Exception("Unable to prepare SQL statement for adding the Koha site (" . $mysqli->errno . "): " . $mysqli->error);
 
-			if (!bind_param($response, $statement, "first_name", $first_name))
-				throw new Exception("Unable to bind the first name to the statement for adding the Koha site");
+			if (!$statement->bind_param("ssssss", $first_name, $surname, $email, $password, $opac_server_name, $intra_server_name))
+				throw new Exception("Unable to bind parameters to the statement for adding the Koha site (" . $statement->errno . "): " . $statement->error);
 
-			if (!bind_param($response, $statement, "surname", $surname))
-				throw new Exception("Unable to bind the surname to the statement for adding the Koha site");
-
-			if (!bind_param($response, $statement, "email", $email))
-				throw new Exception("Unable to bind the email address to the statement for adding the Koha site");
-
-			if (!bind_param($response, $statement, "password", $password))
-				throw new Exception("Unable to bind the password to the statement for adding the Koha site");
-
-			if (!bind_param($response, $statement, "opac_server_name", $opac_server_name))
-				throw new Exception("Unable to bind the OPAC server name to the statement for adding the Koha site");
-
-			if (!bind_param($response, $statement, "intra_server_name", $intra_server_name))
-				throw new Exception("Unable to bind the intranet server name to the statement for adding the Koha site");
-
-			if (!execute_statement($response, $statement))
-				throw new Exception("Unable to execute the statement for getting the Koha site ID");
+			if (!$statement->execute())
+				throw new Exception("Unable to execute the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error);
 
 			##
 			# If we got to this point, yay! It worked!
 			# Get the Koha site ID from the registration database.
 			##
-			if (!($statement = prepare_statement($response, $mysqli, "CALL get_koha_site_id(?)")))
-				throw new Exception("Unable to prepare SQL statement for getting the Koha site ID");
+			if (!($statement = $mysqli->prepare("CALL get_koha_site_id(?, ?)")))
+				throw new Exception("Unable to prepare SQL statement for getting the Koha site ID (" . $mysqli->errno . "): " . $mysqli->error);
 
-			if (!bind_param($response, $statement, "opac_server_name", $opac_server_name))
-				throw new Exception("Unable to bind the OPAC server name to the statement for getting the Koha site ID");
+			if (!$statement->bind_param("ss", $opac_server_name, $intra_server_name))
+				throw new Exception("Unable to bind parameters to the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error);
 
-			if (!bind_param($response, $statement, "intra_server_name", $intra_server_name))
-				throw new Exception("Unable to bind the intranet server name to the statement for getting the Koha site ID");
-
-			if (!(execute_statement($response, $statement)))
-				throw new Exception("Unable to execute the statement for getting the Koha site ID");
+			if (!$statement->execute())
+				throw new Exception("Unable to execute the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error);
 
 			$statement->bind_result($id);
 
@@ -166,7 +137,7 @@ $app->post("/register", function() use($app)
 		} catch (Exception $e)
 		{
 			$response->setStatusCode(503, "Internal Server Error");
-			$response->setJsonContent(array("message" => $e));
+			$response->setJsonContent(array("message" => $e->getMessage()));
 		}
 	}
 	# 400 Bad Request
