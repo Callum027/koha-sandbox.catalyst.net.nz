@@ -80,7 +80,6 @@ $app->post("/register", function() use($app)
 	$respond = null;
 
 	# Get the new site information from the JSON object.
-	error_log("raw body: " . $app->request->getRawBody());
 	if (!($object = $app->request->getJsonRawBody()))
 		$respond = "Unable to decode JSON object";
 	else
@@ -108,7 +107,7 @@ $app->post("/register", function() use($app)
 	{
 		try
 		{
-			$mysqli = new mysqli($hostname, $username, $password, $database);
+			$mysqli = new mysqli(HOSTNAME, USERNAME, PASSWORD, DATABASE);
 
 			##
 			# Register the Koha site with the registration database.
