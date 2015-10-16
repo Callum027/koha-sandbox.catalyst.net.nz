@@ -39,10 +39,14 @@
         </hgroup>
 	  </header>
 
-	  <nav class="no-mobile">
+	  <nav class="clearfix">
 		<ul>
 		  <li><a href="http://koha-community.org">Koha main webpage</a></li>
 		  <li><a href="http://dashboard.koha-community.org/">Koha Dashboard</a></li>
+            
+          <li><a href="http://wiki.koha-community.org/wiki/Main_Page">Koha Wiki</a></li>
+            
+         <li><a href="https://www.catalyst.net.nz/content/homepage-products">Catalyst IT</a></li>
 		</ul>
 	  </nav>
 
@@ -74,13 +78,13 @@ required>
 				</p>
 				
 				<p>
-					<label for="sitename">Site name</label>
-					<input id="site" type="text" name="sitename" placeholder="Enter your site name" required>          
+					<label for="opac">OPAC server</label>
+					<input id="opac" type="text" name="opacname" placeholder="Enter your site domain" required>          
 				</p>
 				
 				<p>
-					<label for="domain">Base domain</label>
-					<input id="domain1" type="text" name="domain" placeholder="Enter the domain name" required>          
+					<label for="intra">INTRA server</label>
+					<input id="intra" type="text" name="intraname" placeholder="Enter the intra server domain" required>          
 				
 				<p> 
 					<label for="email">Email adress</label>
@@ -114,8 +118,8 @@ required>
                         else {
                             sessionStorage.setItem("name", document.getElementById("name").value);
                             sessionStorage.setItem("lastname", document.getElementById("lastname").value);
-                            sessionStorage.setItem("site", document.getElementById("site").value);
-                            sessionStorage.setItem("domain1", document.getElementById("domain1").value);
+                            sessionStorage.setItem("opac", document.getElementById("opac").value);
+                            sessionStorage.setItem("intra", document.getElementById("intra").value);
                             sessionStorage.setItem("email", document.getElementById("email").value);
                              window.location.href = "confirm.php";
 

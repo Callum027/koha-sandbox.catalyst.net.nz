@@ -70,7 +70,7 @@ nav {
     background-image: -o-linear-gradient(top, #585858, #3d3d3d);
     background-image: linear-gradient(top, #585858, #3d3d3d);
   text-align:center;
-  overflow:hidden;
+
  
 }
 
@@ -268,4 +268,23 @@ ul .mobile-only {
 }
 
 
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+    
+}
 

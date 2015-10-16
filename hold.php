@@ -36,13 +36,16 @@
 	   </hgroup>
 	  </header>
 
-	  <nav class="no-mobile">
+	  <nav class="clearfix">
 		<ul>
 		  <li><a href="http://koha-community.org">Koha main webpage</a></li>
 		  <li><a href="http://dashboard.koha-community.org/">Koha Dashboard</a></li>
+            
+          <li><a href="http://wiki.koha-community.org/wiki/Main_Page">Koha Wiki</a></li>
+            
+         <li><a href="https://www.catalyst.net.nz/content/homepage-products">Catalyst IT</a></li>
 		</ul>
 	  </nav>
-
 	  
 
 

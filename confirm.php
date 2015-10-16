@@ -38,14 +38,17 @@
 		<h2 class="no-mobile">You are here: confirm your info</h2>
 	   </hgroup>
 	  </header>
-
-	  <nav class="no-mobile">
+        
+  <nav class="clearfix">
 		<ul>
 		  <li><a href="http://koha-community.org">Koha main webpage</a></li>
 		  <li><a href="http://dashboard.koha-community.org/">Koha Dashboard</a></li>
+            
+          <li><a href="http://wiki.koha-community.org/wiki/Main_Page">Koha Wiki</a></li>
+            
+         <li><a href="https://www.catalyst.net.nz/content/homepage-products">Catalyst IT</a></li>
 		</ul>
 	  </nav>
-
 	  
 
 
@@ -68,13 +71,13 @@
 				</p>
 				
 				<p>
-					<label for="sitename">Site name</label>
-					<input id="insertsite" type="text" name="sitename" readonly>
+					<label for="opac">OPAC server</label>
+					<input id="insertopac" type="text" name="opacname" readonly>
 				</p>
 				
 				<p>
-					<label for="domain">Base domain</label>
-					<input id="insertdomain" type="text" name="domain" readonly>
+					<label for="intra">INTRA server</label>
+					<input id="insertintra" type="text" name="intraname" readonly>
 				</p>
 				
 				<p> 
@@ -94,8 +97,8 @@
 <script>
 document.getElementById("insertname").value = sessionStorage.getItem("name");
     document.getElementById("insertlastname").value = sessionStorage.getItem("lastname");
-    document.getElementById("insertsite").value = sessionStorage.getItem("site");
-document.getElementById("insertdomain").value = sessionStorage.getItem("domain1");
+    document.getElementById("insertopac").value = sessionStorage.getItem("opac");
+document.getElementById("insertintra").value = sessionStorage.getItem("intra");
     document.getElementById("insertemail").value = sessionStorage.getItem("email");
 </script>
         
