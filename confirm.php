@@ -113,8 +113,8 @@
 
     $(document).ready(function()
     {
-        $("#confirmsite").click(function()
-        {
+        //$("#confirmsite").click(function()
+        //{
             $("#registerform").ajaxForm
             ({
                 url: "hold.php",
@@ -125,7 +125,7 @@
                     sesionStorage.setItem("id", $.parseJSON(response).id);
                 }
             });
-        });
+        //});
         
     });
 </script>
