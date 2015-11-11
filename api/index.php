@@ -32,18 +32,7 @@ function is_valid_domain_name($domain_name)
 
 function check_db($id)
 {
-	$mysqli = new mysqli(HOSTNAME, USERNAME, PASSWORD, DATABASE);
-
-	if (!($statement = $mysqli->prepare("CALL get_koha_site(?)")))
-		return "Unable to prepare SQL statement for getting the Koha site ID (" . $mysqli->errno . "): " . $mysqli->error;
-
-	if (!$statement->bind_param("s", $id))
-		return "Unable to bind parameters to the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error;
-
-	if (!$statement->execute())
-		return "Unable to execute the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error;
-
-	return (($results = $statement->fetch()));
+	return !empty(system("puppet query nodes 'Site::Profiles::Db::Site[\"$id\"]'"));
 }
 
 function check_memcached($id)
