@@ -32,27 +32,27 @@ function is_valid_domain_name($domain_name)
 
 function check_db($id)
 {
-	return !empty(system("sudo puppet-query-nodes 'Site::Profiles::Db::Site[\"$id\"]'"));
+	return !empty(exec("sudo puppet-query-nodes 'Site::Profiles::Db::Site[\"$id\"]'"));
 }
 
 function check_memcached($id)
 {
-	return !empty(system("sudo puppet-query-nodes 'Site::Profiles::Memcached::Site[\"$id\"]'"));
+	return !empty(exec("sudo puppet-query-nodes 'Site::Profiles::Memcached::Site[\"$id\"]'"));
 }
 
 function check_zebra($id)
 {
-	return !empty(system("sudo puppet-query-nodes 'Site::Profiles::Zebra::Site[\"$id\"]'"));
+	return !empty(exec("sudo puppet-query-nodes 'Site::Profiles::Zebra::Site[\"$id\"]'"));
 }
 
 function check_koha($id)
 {
-	return !empty(system("sudo puppet-query-nodes 'Site::Profiles::Koha::Site[\"$id\"]'"));
+	return !empty(exec("sudo puppet-query-nodes 'Site::Profiles::Koha::Site[\"$id\"]'"));
 }
 
 function check_proxy($id)
 {
-	return !empty(system("sudo puppet-query-nodes 'Site::Profiles::Prox::Site[\"$id\"]'"));
+	return !empty(exec("sudo puppet-query-nodes 'Site::Profiles::Prox::Site[\"$id\"]'"));
 }
 
 ##
