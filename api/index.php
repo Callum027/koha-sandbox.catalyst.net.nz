@@ -43,7 +43,7 @@ function check_db($id)
 	if (!$statement->execute())
 		return "Unable to execute the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error;
 
-	return ($results = $mysqli->fetch());
+	return (($results = $statement->fetch()));
 }
 
 function check_memcached($id)
@@ -141,7 +141,7 @@ $app->post("/register", function() use($app)
 
 			$statement->bind_result($id);
 
-			if (($results = $mysqli->fetch()))
+			if (($results = $statement->fetch()))
 			{
 				# Only get the ID and send an "Accepted" reply if we got a result back.
 				# 202 Accepted
