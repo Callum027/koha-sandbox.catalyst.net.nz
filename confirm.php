@@ -58,7 +58,7 @@
         <h1>Confirm your infomation</h1>
         <p>Please check that all the information you have entered is correct, then hit confirm to build your koha instance. If your information is not correct please follow the <a href="index.php">link</a> back to the homepage. Please note that your information will not be kept.</p>
                   <div id="register">
-			<form id="registerform" name="register">
+			<form id="registerform" action="hold.php" method="post" name="register">
 		
 				<p>
 					<label for="firstname">First name</label>
@@ -117,12 +117,10 @@
         //{
             $("#registerform").ajaxForm
             ({
-                url: "hold.php",
-                type: 'post',
                 dataType: 'json',
                 success: function(response)
                 {
-                    sesionStorage.setItem("id", $.parseJSON(response).id);
+                    sessionStorage.setItem("id", $.parseJSON(response).id);
                 }
             });
         //});
