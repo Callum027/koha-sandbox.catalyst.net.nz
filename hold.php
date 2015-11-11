@@ -71,7 +71,7 @@
         <div id="done"></div>
 
         <script type="text/javascript">
-          opac_server_name = sessionStorage.getItem("id");
+          id = sessionStorage.getItem("id");
           opac_server_name = sessionStorage.getItem("opac");
           intra_server_name = sessionStorage.getItem("intra");
 
