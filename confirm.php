@@ -81,11 +81,19 @@
 				</p>
 				
 				<p> 
-					<label for="email">Email adress</label>
+					<label for="email">Email address</label>
 					<input id="insertemail" type="email" name="email" readonly>
 				</p>
 				
-					
+				<p>
+					<label for="password">Password</label>
+					<input id="insertpass1" type="password" name="pword" readonly>           
+				
+				<p>
+				
+					<label for="confirmpassword">Confirm password</label>
+					<input id="insertpass2" type="password" name="confirmpword" readonly>
+				</p>
 
 				
 				<input id="confirmsite" type="submit" value="confirm">
@@ -100,6 +108,8 @@
     document.getElementById("insertopac").value = sessionStorage.getItem("opac");
     document.getElementById("insertintra").value = sessionStorage.getItem("intra");
     document.getElementById("insertemail").value = sessionStorage.getItem("email");
+    document.getElementById("insertpass1").value = sessionStorage.getItem("pass1");
+    document.getElementById("insertpass2").value = sessionStorage.getItem("pass2");
 
     $(document).ready(function()
     {
@@ -108,6 +118,7 @@
             $("#registerform").ajaxForm
             ({
                 url: "hold.php",
+                type: 'post',
                 dataType: 'json',
                 success: function(response)
                 {

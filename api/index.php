@@ -85,10 +85,10 @@ $app->post("/register", function() use($app)
 		$first_name = htmlspecialchars($_POST['firstname']);
 		$surname = htmlspecialchars($_POST['surname']);
 		$email = htmlspecialchars($_POST['email']);
-		$password = htmlspecialchars($_POST['password']);
-		$confirm_password = htmlspecialchars($_POST['confirmpassword']);
-		$opac_server_name = htmlspecialchars($_POST['opac']);
-		$intra_server_name = htmlspecialchars($_POST['intra']);
+		$password = htmlspecialchars($_POST['pword']);
+		$confirm_password = htmlspecialchars($_POST['confirmpword']);
+		$opac_server_name = htmlspecialchars($_POST['opacname']);
+		$intra_server_name = htmlspecialchars($_POST['intraname']);
 	}
 
 	# Check validity of the parameters.

@@ -121,6 +121,8 @@ required>
                             sessionStorage.setItem("opac", document.getElementById("opac").value);
                             sessionStorage.setItem("intra", document.getElementById("intra").value);
                             sessionStorage.setItem("email", document.getElementById("email").value);
+                            sessionStorage.setItem("pass1", document.getElementById("pass1").value);
+                            sessionStorage.setItem("pass2", document.getElementById("pass2").value);
                              window.location.href = "confirm.php";
 
                         }
