@@ -88,7 +88,7 @@
 					
 
 				
-				<input id="confirmsite" value="confirm">
+				<input id="confirmsite" type="submit" value="confirm">
 				
 			</form>
 		</div>
