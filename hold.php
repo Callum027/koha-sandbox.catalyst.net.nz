@@ -188,6 +188,7 @@
               }
           }
 
+          refresh_status();
           check_db(id);
         </script>
 		
