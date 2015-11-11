@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="css/default.css" media="only all and (min-width: 480px") /> <!---works in conjuction with mobile and tablet style sheets--->
         <script src="//code.jquery.com/jquery-2.1.4.min.js" /> 
         <script type="text/javascript">
+          var CHECK_TIMEOUT = 30000; // ms
           var BASE_URL = 'http://koha-sandbox.catalyst.net.nz/';
         </script>
 	<!-- the following script operates for older browsers incl. mobile -->
@@ -62,23 +63,120 @@
           <p id="small"><i>This may take a few minutes...</i></p>
         </div>
 	
-        <div id="db-status"></div>	
-        <div id="memcached-status"></div>
-        <div id="zebra-status"></div>
-        <div id="koha-status"></div>
-        <div id="proxy-status"></div>
+        <div id="dbstatus"></div>	
+        <div id="memcachedstatus"></div>
+        <div id="zebrastatus"></div>
+        <div id="kohastatus"></div>
+        <div id="proxystatus"></div>
+        <div id="done"></div>
 
         <script type="text/javascript">
-          function component_ready(name, id)
+          opac_server_name = sessionStorage.getItem("id");
+          opac_server_name = sessionStorage.getItem("opac");
+          intra_server_name = sessionStorage.getItem("intra");
+
+          db_status = 'waiting';
+          memcached_status = 'waiting';
+          zebra_status = 'waiting';
+          koha_status = 'waiting';
+          proxy_status = 'waiting';
+          done = false;
+
+          function refresh_status()
           {
-            return $.getJSON(BASE_URL + 'api/status/' + name + '/' + id).ready;
+              // Note to Francesca: change this HTML here to change the style of the output.
+              $("#dbstatus").html("<p>Database: " + db_status + "</p>");
+              $("#memcachedstatus").html("<p>memcached: " + memcached_status + "</p>");
+              $("#zebrastatus").html("<p>Zebra: " + zebra_status + "</p>");
+              $("#kohastatus").html("<p>Koha Site: " + koha_status + "</p>");
+              $("#proxystatus").html("<p>Reverse Proxy: " + proxy_status + "</p>");
+
+              if (done)
+              {
+                  $("#done").html("<p id=\"small\">Your Koha site is now accessible. Go to your Koha site's administration interface to get started:\n"
+                          + "<a target=\"_blank\" href=https://" + intra_server_name + ">" + intra_server_name + "</a>\n\n"
+                          + "Once you have set up your Koha site, the OPAC will be accessible from here:\n"
+                          + "<a target=\"_blank\" href=https://" + opac_server_name + ">" + opac_server_name + "</a></p>");
+              }
+
           }
 
-          component_ready('db', id);
-          component_ready('memcached', id);
-          component_ready('zebra', id);
-          component_ready('koha', id);
-          component_ready('proxy', id);
+          function component_ready(name, id)
+          {
+              return $.getJSON(BASE_URL + 'api/status/' + name + '/' + id).ready;
+          }
+
+          function check_db(id)
+          {
+              if (!component_ready('db', id))
+              {
+                  db_status = 'building';
+                  setTimeout(check_db, CHECK_TIMEOUT, id);
+              }
+              else
+              {
+                  db_status = 'ready';
+                  check_memcached(id);
+              }
+          }
+
+          function check_memcached(id)
+          {
+              if (!component_ready('memcached', id))
+              {
+                  memcached_status = 'building';
+                  setTimeout(check_memcached, CHECK_TIMEOUT, id);
+              }
+              else
+              {
+                  memcached_status = 'ready';
+                  check_zebra(id);
+              }
+          }
+
+          function check_zebra(id)
+          {
+              if (!component_ready('zebra', id))
+              {
+                  zebra_status = 'building';
+                  setTimeout(check_zebra, CHECK_TIMEOUT, id);
+              }
+              else
+              {
+                  zebra_status = 'ready';
+                  check_koha(id);
+              }
+          }
+
+          function check_koha(id)
+          {
+              if (!component_ready('koha', id))
+              {
+                  koha_status = 'building';
+                  setTimeout(check_koha, CHECK_TIMEOUT, id);
+              }
+              else
+              {
+                  koha_status = 'ready';
+                  check_proxy(id);
+              }
+          }
+
+          function check_proxy(id)
+          {
+              if (!component_ready('proxy', id))
+              {
+                  proxy_status = 'building';
+                  setTimeout(check_proxy, CHECK_TIMEOUT, id);
+              }
+              else
+              {
+                  proxy_status = 'ready';
+                  done = true;
+              }
+          }
+
+          check_db(id);
         </script>
 		
 	</article>

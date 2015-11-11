@@ -70,9 +70,7 @@ $app->post("/register", function() use($app)
 	$respond = null;
 
 	# Get the new site information from the JSON object.
-	if (!($object = $app->request->getJsonRawBody()))
-		$respond = "Unable to decode JSON object";
-	else
+	if (($object = $app->request->getJsonRawBody()))
 	{
 		$first_name = $object->{"first_name"};
 		$surname = $object->{"surname"};
@@ -81,20 +79,30 @@ $app->post("/register", function() use($app)
 		$confirm_password = $object->{"confirm_password"};
 		$opac_server_name = $object->{"opac_server_name"};
 		$intra_server_name = $object->{"intra_server_name"};
-
-		# Check validity of the parameters.
-		if ($password !== $confirm_password && $respond == null)
-			$respond = "Mismatching passwords";
-
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL) && $respond == null)
-			$respond = "Invalid email address";
-
-		if (!is_valid_domain_name($opac_server_name) && $respond == null)
-			$respond = "Invalid OPAC server name";
-
-		if (!is_valid_domain_name($intra_server_name) && $respond == null)
-			$respond = "Invalid intranet server name";
 	}
+	else
+	{
+		$first_name = htmlspecialchars($_POST['firstname']);
+		$surname = htmlspecialchars($_POST['surname']);
+		$email = htmlspecialchars($_POST['email']);
+		$password = htmlspecialchars($_POST['password']);
+		$confirm_password = htmlspecialchars($_POST['confirmpassword']);
+		$opac_server_name = htmlspecialchars($_POST['opac']);
+		$intra_server_name = htmlspecialchars($_POST['intra']);
+	}
+
+	# Check validity of the parameters.
+	if ($password !== $confirm_password && $respond == null)
+		$respond = "Mismatching passwords";
+
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL) && $respond == null)
+		$respond = "Invalid email address";
+
+	if (!is_valid_domain_name($opac_server_name) && $respond == null)
+		$respond = "Invalid OPAC server name";
+
+	if (!is_valid_domain_name($intra_server_name) && $respond == null)
+		$respond = "Invalid intranet server name";
 
 	# If all of the parameters are valid, continue to send the request.
 	if ($respond == null)

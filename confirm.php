@@ -57,8 +57,8 @@
 		<a class="mobile-only" name="jumptop"></a> <!---these links are for mobile only, they allow easy navigation whilst on a mobile device.--->
         <h1>Confirm your infomation</h1>
         <p>Please check that all the information you have entered is correct, then hit confirm to build your koha instance. If your information is not correct please follow the <a href="index.php">link</a> back to the homepage. Please note that your information will not be kept.</p>
-      <div id="register">
-			<form name="register" action="hold.php" method="post">
+                  <div id="register">
+			<form id="registerform" name="register">
 		
 				<p>
 					<label for="firstname">First name</label>
@@ -88,18 +88,35 @@
 					
 
 				
-				<input type="submit"  value="confirm">
+				<input id="confirmsite" value="confirm">
 				
 			</form>
 		</div>
 	
 
 <script>
-document.getElementById("insertname").value = sessionStorage.getItem("name");
+    document.getElementById("insertname").value = sessionStorage.getItem("name");
     document.getElementById("insertlastname").value = sessionStorage.getItem("lastname");
     document.getElementById("insertopac").value = sessionStorage.getItem("opac");
-document.getElementById("insertintra").value = sessionStorage.getItem("intra");
+    document.getElementById("insertintra").value = sessionStorage.getItem("intra");
     document.getElementById("insertemail").value = sessionStorage.getItem("email");
+
+    $(document).ready(function()
+    {
+        $("#confirmsite").click(function()
+        {
+            $("#registerform").ajaxForm
+            ({
+                url: "hold.php",
+                dataType: 'json',
+                success: function(response)
+                {
+                    sesionStorage.setItem("id", $.parseJSON(response).id);
+                }
+            });
+        });
+        
+    });
 </script>
         
 	                            
