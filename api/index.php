@@ -32,22 +32,27 @@ function is_valid_domain_name($domain_name)
 
 function check_db($id)
 {
-	return !empty(system("puppet query nodes 'Site::Roles::Db::Site[\"$id\"]'"));
+	return !empty(system("puppet query nodes 'Site::Profiles::Db::Site[\"$id\"]'"));
 }
 
-function check_cachedb($id)
+function check_memcached($id)
 {
-	return !empty(system("puppet query nodes 'Site::Roles::Cachedb::Site[\"$id\"]'"));
+	return !empty(system("puppet query nodes 'Site::Profiles::Memcached::Site[\"$id\"]'"));
+}
+
+function check_zebra($id)
+{
+	return !empty(system("puppet query nodes 'Site::Profiles::Zebra::Site[\"$id\"]'"));
 }
 
 function check_koha($id)
 {
-	return !empty(system("puppet query nodes 'Site::Roles::Koha::Site[\"$id\"]'"));
+	return !empty(system("puppet query nodes 'Site::Profiles::Koha::Site[\"$id\"]'"));
 }
 
 function check_proxy($id)
 {
-	return !empty(system("puppet query nodes 'Site::Roles::Prox::Site[\"$id\"]'"));
+	return !empty(system("puppet query nodes 'Site::Profiles::Prox::Site[\"$id\"]'"));
 }
 
 ##
@@ -147,6 +152,71 @@ $app->post("/register", function() use($app)
 		$response->setStatusCode(400, "Bad Request");
 		$response->setJsonContent(array("message" => $respond));
 	}
+
+	return $response;
+});
+
+$app->get("/status/db/{id}", function($id)
+{
+	# Start building the response.
+	$response = new Response();
+
+	# Fill the response with the return value of the function that checks
+	# the status of the component.
+	$response->setStatusCode(200, "OK");
+	$response->setJsonContent(array("ready" => check_db($id)));
+
+	return $response;
+});
+
+$app->get("/status/memcached/{id}", function($id)
+{
+	# Start building the response.
+	$response = new Response();
+
+	# Fill the response with the return value of the function that checks
+	# the status of the component.
+	$response->setStatusCode(200, "OK");
+	$response->setJsonContent(array("ready" => check_memcached($id)));
+
+	return $response;
+});
+
+$app->get("/status/zebra/{id}", function($id)
+{
+	# Start building the response.
+	$response = new Response();
+
+	# Fill the response with the return value of the function that checks
+	# the status of the component.
+	$response->setStatusCode(200, "OK");
+	$response->setJsonContent(array("ready" => check_zebra($id)));
+
+	return $response;
+});
+
+$app->get("/status/koha/{id}", function($id)
+{
+	# Start building the response.
+	$response = new Response();
+
+	# Fill the response with the return value of the function that checks
+	# the status of the component.
+	$response->setStatusCode(200, "OK");
+	$response->setJsonContent(array("ready" => check_koha($id)));
+
+	return $response;
+});
+
+$app->get("/status/proxy/{id}", function($id)
+{
+	# Start building the response.
+	$response = new Response();
+
+	# Fill the response with the return value of the function that checks
+	# the status of the component.
+	$response->setStatusCode(200, "OK");
+	$response->setJsonContent(array("ready" => check_proxy($id)));
 
 	return $response;
 });
