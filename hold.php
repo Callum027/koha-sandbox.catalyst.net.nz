@@ -111,11 +111,13 @@
               if (!component_ready('db', id))
               {
                   db_status = 'building';
+                  refresh_status();
                   setTimeout(check_db, CHECK_TIMEOUT, id);
               }
               else
               {
                   db_status = 'ready';
+                  refresh_status();
                   check_memcached(id);
               }
           }
@@ -125,13 +127,17 @@
               if (!component_ready('memcached', id))
               {
                   memcached_status = 'building';
+                  refresh_status();
                   setTimeout(check_memcached, CHECK_TIMEOUT, id);
               }
               else
               {
                   memcached_status = 'ready';
+                  refresh_status();
                   check_zebra(id);
               }
+
+
           }
 
           function check_zebra(id)
@@ -139,11 +145,13 @@
               if (!component_ready('zebra', id))
               {
                   zebra_status = 'building';
+                  refresh_status();
                   setTimeout(check_zebra, CHECK_TIMEOUT, id);
               }
               else
               {
                   zebra_status = 'ready';
+                  refresh_status();
                   check_koha(id);
               }
           }
@@ -153,11 +161,13 @@
               if (!component_ready('koha', id))
               {
                   koha_status = 'building';
+                  refresh_status();
                   setTimeout(check_koha, CHECK_TIMEOUT, id);
               }
               else
               {
                   koha_status = 'ready';
+                  refresh_status();
                   check_proxy(id);
               }
           }
@@ -167,11 +177,13 @@
               if (!component_ready('proxy', id))
               {
                   proxy_status = 'building';
+                  refresh_status();
                   setTimeout(check_proxy, CHECK_TIMEOUT, id);
               }
               else
               {
                   proxy_status = 'ready';
+                  refresh_status();
                   done = true;
               }
           }
