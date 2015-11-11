@@ -15,6 +15,10 @@
 	<link rel="stylesheet" href="css/tablet.css" media="only all and (min-width: 481px)" />
 	<link rel="stylesheet" href="css/styles.css" media="only all and (min-width: 960px)" />
 	<link rel="stylesheet" href="css/default.css" media="only all and (min-width: 480px") /> <!---works in conjuction with mobile and tablet style sheets--->
+        <script src="//code.jquery.com/jquery-2.1.4.min.js" /> 
+        <script type="text/javascript">
+          var BASE_URL = 'http://koha-sandbox.catalyst.net.nz/';
+        </script>
 	<!-- the following script operates for older browsers incl. mobile -->
 	<!--[if lt IE 9 & !IEMobile]>
 			<link rel="stylesheet" href="css/mobile.css" />
@@ -52,10 +56,30 @@
 	<article>
 		<a  class="mobile-only" href="#jumpbottom" >To Navigation</a>
 		<a class="mobile-only" name="jumptop"></a> <!---these links are for mobile only, they allow easy navigation whilst on a mobile device.--->
-        
-        <p>Your koha instance is being built please wait. The page will automatically refresh and redirect you when this is complete.</p>
-        <p id="small"><i>This may take a few minutes...</i></p>
-		
+
+        <div id="headline">
+          <p>Your Koha instance is being built.</p>
+          <p id="small"><i>This may take a few minutes...</i></p>
+        </div>
+	
+        <div id="db-status"></div>	
+        <div id="memcached-status"></div>
+        <div id="zebra-status"></div>
+        <div id="koha-status"></div>
+        <div id="proxy-status"></div>
+
+        <script type="text/javascript">
+          function component_ready(name, id)
+          {
+            return $.getJSON(BASE_URL + 'api/status/' + name + '/' + id).ready;
+          }
+
+          component_ready('db', id);
+          component_ready('memcached', id);
+          component_ready('zebra', id);
+          component_ready('koha', id);
+          component_ready('proxy', id);
+        </script>
 		
 	</article>
 
