@@ -71,16 +71,16 @@
         <div id="done"></div>
 
         <script type="text/javascript">
-          id = sessionStorage.getItem("id");
-          opac_server_name = sessionStorage.getItem("opac");
-          intra_server_name = sessionStorage.getItem("intra");
+          var id = sessionStorage.getItem("id");
+          var opac_server_name = sessionStorage.getItem("opac");
+          var intra_server_name = sessionStorage.getItem("intra");
 
-          db_status = 'waiting';
-          memcached_status = 'waiting';
-          zebra_status = 'waiting';
-          koha_status = 'waiting';
-          proxy_status = 'waiting';
-          done = false;
+          var db_status = 'waiting';
+          var memcached_status = 'waiting';
+          var zebra_status = 'waiting';
+          var koha_status = 'waiting';
+          var proxy_status = 'waiting';
+          var done = false;
 
           function refresh_status()
           {
