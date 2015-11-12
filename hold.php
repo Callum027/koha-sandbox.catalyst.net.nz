@@ -50,6 +50,7 @@
           <p id="small"><i>This may take a few minutes...</i></p>
         </div>
 	
+        <div id="kohasiteid"></div>	
         <div id="dbstatus"></div>	
         <div id="memcachedstatus"></div>
         <div id="zebrastatus"></div>
@@ -58,7 +59,7 @@
         <div id="done"></div>
 
         <script type="text/javascript">
-          var CHECK_TIMEOUT = 30000; // ms
+          var CHECK_TIMEOUT = 10000; // ms
 
           var id = sessionStorage.getItem("id");
           var opac_server_name = sessionStorage.getItem("opac");
@@ -74,6 +75,7 @@
           function refresh_status()
           {
               // Note to Francesca: change this HTML here to change the style of the output.
+              $("#kohasiteid").html("<p>Koha Site ID: " + id + "</p>");
               $("#dbstatus").html("<p>Database: " + db_status + "</p>");
               $("#memcachedstatus").html("<p>memcached: " + memcached_status + "</p>");
               $("#zebrastatus").html("<p>Zebra: " + zebra_status + "</p>");
@@ -89,92 +91,107 @@
               }
           }
 
-          function component_ready(name, id)
+          function component_ready(name, id, callback)
           {
-              return $.getJSON('/api/status/' + name + '/' + id).then(function(data)
+              $.getJSON('/api/status/' + name + '/' + id, function(data)
               {
-                  return data.ready;
+                  callback(data.ready);
               });
           }
 
           function check_db(id)
           {
-              if (!component_ready('db', id))
+              component_ready('db', id, function(ready)
               {
-                  db_status = 'building';
-                  refresh_status();
-                  setTimeout(check_db, CHECK_TIMEOUT, id);
-              }
-              else
-              {
-                  db_status = 'ready';
-                  refresh_status();
-                  check_memcached(id);
-              }
+                  if (!ready)
+                  {
+                      db_status = 'building';
+                      refresh_status();
+                      setTimeout(check_db, CHECK_TIMEOUT, id);
+                  }
+                  else
+                  {
+                      db_status = 'ready';
+                      refresh_status();
+                      check_memcached(id);
+                  }
+              });
           }
 
           function check_memcached(id)
           {
-              if (!component_ready('memcached', id))
+              component_ready('memcached', id, function(ready)
               {
-                  memcached_status = 'building';
-                  refresh_status();
-                  setTimeout(check_memcached, CHECK_TIMEOUT, id);
-              }
-              else
-              {
-                  memcached_status = 'ready';
-                  refresh_status();
-                  check_zebra(id);
-              }
+                  if (!ready)
+                  {
+                      memcached_status = 'building';
+                      refresh_status();
+                      setTimeout(check_memcached, CHECK_TIMEOUT, id);
+                  }
+                  else
+                  {
+                      memcached_status = 'ready';
+                      refresh_status();
+                      check_zebra(id);
+                  }
+              });
           }
 
           function check_zebra(id)
           {
-              if (!component_ready('zebra', id))
+              component_ready('zebra', id, function(ready)
               {
-                  zebra_status = 'building';
-                  refresh_status();
-                  setTimeout(check_zebra, CHECK_TIMEOUT, id);
-              }
-              else
-              {
-                  zebra_status = 'ready';
-                  refresh_status();
-                  check_koha(id);
-              }
+                  if (!ready)
+                  {
+                      zebra_status = 'building';
+                      refresh_status();
+                      setTimeout(check_zebra, CHECK_TIMEOUT, id);
+                  }
+                  else
+                  {
+                      zebra_status = 'ready';
+                      refresh_status();
+                      check_koha(id);
+                  }
+              });
           }
 
           function check_koha(id)
           {
-              if (!component_ready('koha', id))
+              component_ready('koha', id, function(ready)
               {
-                  koha_status = 'building';
-                  refresh_status();
-                  setTimeout(check_koha, CHECK_TIMEOUT, id);
-              }
-              else
-              {
-                  koha_status = 'ready';
-                  refresh_status();
-                  check_proxy(id);
-              }
+                  if (!ready)
+                  {
+                      koha_status = 'building';
+                      refresh_status();
+                      setTimeout(check_koha, CHECK_TIMEOUT, id);
+                  }
+                  else
+                  {
+                      koha_status = 'ready';
+                      refresh_status();
+                      check_proxy(id);
+                  }
+              });
           }
 
           function check_proxy(id)
           {
-              if (!component_ready('proxy', id))
+              component_ready('proxy', id, function(ready)
               {
-                  proxy_status = 'building';
-                  refresh_status();
-                  setTimeout(check_proxy, CHECK_TIMEOUT, id);
-              }
-              else
-              {
-                  proxy_status = 'ready';
-                  done = true;
-                  refresh_status();
-              }
+                  if (!ready)
+                  {
+                      proxy_status = 'building';
+                      refresh_status();
+                      setTimeout(check_proxy, CHECK_TIMEOUT, id);
+                  }
+                  else
+                  {
+                      proxy_status = 'ready';
+                      done = true;
+                      refresh_status();
+                  }
+              });
           }
 
           refresh_status();

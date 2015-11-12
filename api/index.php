@@ -52,7 +52,7 @@ function check_koha($id)
 
 function check_proxy($id)
 {
-	return !empty(exec("sudo puppet-query-nodes 'Site::Profiles::Prox::Site[\"$id\"]'"));
+	return !empty(exec("sudo puppet-query-nodes 'Site::Profiles::Proxy::Site[\"$id\"]'"));
 }
 
 ##
