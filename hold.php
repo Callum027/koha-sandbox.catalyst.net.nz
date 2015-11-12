@@ -82,16 +82,19 @@
 
               if (done)
               {
-                  $("#done").html("<p id=\"small\">Your Koha site is now accessible. Go to your Koha site's administration interface to get started:\n"
-                          + "<a target=\"_blank\" href=\"https://" + intra_server_name + "\">" + intra_server_name + "</a>\n\n"
-                          + "Once you have set up your Koha site, the OPAC will be accessible from here:\n"
+                  $("#done").html("<p id=\"small\">Your Koha site is now accessible. Go to your Koha site's administration interface to get started:<br>"
+                          + "<a target=\"_blank\" href=\"https://" + intra_server_name + "\">" + intra_server_name + "</a><br><br>"
+                          + "Once you have set up your Koha site, the OPAC will be accessible from here:<br>"
                           + "<a target=\"_blank\" href=\"https://" + opac_server_name + "\">" + opac_server_name + "</a></p>");
               }
           }
 
           function component_ready(name, id)
           {
-              return $.getJSON('/api/status/' + name + '/' + id).ready;
+              return $.getJSON('/api/status/' + name + '/' + id).then(function(data)
+              {
+                  return data.ready;
+              });
           }
 
           function check_db(id)
