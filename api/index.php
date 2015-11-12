@@ -125,16 +125,8 @@ $app->post("/register", function() use($app)
 
 			##
 			# If we got to this point, yay! It worked!
-			# Get the Koha site ID from the registration database.
+			# Get the Koha site ID from the response.
 			##
-			if (!($statement = $mysqli->prepare("CALL get_koha_site_id(?, ?)")))
-				throw new Exception("Unable to prepare SQL statement for getting the Koha site ID (" . $mysqli->errno . "): " . $mysqli->error);
-
-			if (!$statement->bind_param("ss", $opac_server_name, $intra_server_name))
-				throw new Exception("Unable to bind parameters to the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error);
-
-			if (!$statement->execute())
-				throw new Exception("Unable to execute the statement for getting the Koha site ID (" . $statement->errno . "): " . $statement->error);
 
 			$statement->bind_result($id);
 
@@ -146,7 +138,7 @@ $app->post("/register", function() use($app)
 				$response->setJsonContent(array("id" => $id));
 			}
 			else
-				throw new Exception("Unable to get Koha site ID from OPAC/intra server name");
+				throw new Exception("Unable to get Koha site ID from statement response");
 		} catch (Exception $e)
 		{
 			$response->setStatusCode(503, "Internal Server Error");
