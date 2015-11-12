@@ -121,7 +121,7 @@
             ({
                 url: "/api/register",
                 type: "POST",
-                data: $("#registerform").seralize(),
+                data: $("#registerform").serialize(),
                 dataType: "json",
                 success: function(response)
                 {
