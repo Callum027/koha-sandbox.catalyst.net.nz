@@ -121,11 +121,11 @@
             ({
                 url: "/api/register",
                 type: "POST",
-                data: $("#registerform").serialize(),
+                data: $(this).serialize(),
                 dataType: "json",
                 success: function(response)
                 {
-                    sessionStorage.setItem("id", $.parseJSON(response).id);
+                    sessionStorage.setItem("id", response.id);
                     location.assign("/hold.php");
                 }
             });

@@ -16,10 +16,6 @@
 	<link rel="stylesheet" href="css/styles.css" media="only all and (min-width: 960px)" />
 	<link rel="stylesheet" href="css/default.css" media="only all and (min-width: 480px") /> <!---works in conjuction with mobile and tablet style sheets--->
         <script src="//code.jquery.com/jquery-2.1.4.min.js" /> 
-        <script type="text/javascript">
-          var CHECK_TIMEOUT = 30000; // ms
-          var BASE_URL = 'http://koha-sandbox.catalyst.net.nz/';
-        </script>
 	<!-- the following script operates for older browsers incl. mobile -->
 	<!--[if lt IE 9 & !IEMobile]>
 			<link rel="stylesheet" href="css/mobile.css" />
@@ -71,6 +67,8 @@
         <div id="done"></div>
 
         <script type="text/javascript">
+          var CHECK_TIMEOUT = 30000; // ms
+
           var id = sessionStorage.getItem("id");
           var opac_server_name = sessionStorage.getItem("opac");
           var intra_server_name = sessionStorage.getItem("intra");
@@ -103,7 +101,7 @@
 
           function component_ready(name, id)
           {
-              return $.getJSON(BASE_URL + 'api/status/' + name + '/' + id).ready;
+              return $.getJSON('/api/status/' + name + '/' + id).ready;
           }
 
           function check_db(id)
