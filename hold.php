@@ -92,9 +92,9 @@
               if (done)
               {
                   $("#done").html("<p id=\"small\">Your Koha site is now accessible. Go to your Koha site's administration interface to get started:\n"
-                          + "<a target=\"_blank\" href=https://" + intra_server_name + ">" + intra_server_name + "</a>\n\n"
+                          + "<a target=\"_blank\" href=\"https://" + intra_server_name + "\">" + intra_server_name + "</a>\n\n"
                           + "Once you have set up your Koha site, the OPAC will be accessible from here:\n"
-                          + "<a target=\"_blank\" href=https://" + opac_server_name + ">" + opac_server_name + "</a></p>");
+                          + "<a target=\"_blank\" href=\"https://" + opac_server_name + "\">" + opac_server_name + "</a></p>");
               }
 
           }
@@ -134,8 +134,6 @@
                   refresh_status();
                   check_zebra(id);
               }
-
-
           }
 
           function check_zebra(id)
