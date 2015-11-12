@@ -172,8 +172,8 @@
               else
               {
                   proxy_status = 'ready';
-                  refresh_status();
                   done = true;
+                  refresh_status();
               }
           }
 
