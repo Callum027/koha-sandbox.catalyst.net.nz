@@ -9,22 +9,13 @@
 	<meta name="description" content="This webpage is a front for a site testing registration and deployment of sites on the Koha as a Service system" />
 	<meta name="author" content="Webpage:Francesca Moore; Koha as a Service: Callum Dickinson" />
 	<meta name="copyright" content="Copyright 2015 Callum Dickinson and Francesca Moore " />
-	<meta name="robots"content= "noindex, nofollow" />
+	<meta name="robots" content="noindex, nofollow" />
 	<meta name="viewport" content="width=device-width" />
 	<link rel="stylesheet" href="css/mobile.css" media="only all and (max-width: 480px)" />
 	<link rel="stylesheet" href="css/tablet.css" media="only all and (min-width: 481px)" />
 	<link rel="stylesheet" href="css/styles.css" media="only all and (min-width: 960px)" />
-	<link rel="stylesheet" href="css/default.css" media="only all and (min-width: 480px") /> <!---works in conjuction with mobile and tablet style sheets--->
-        <script src="//code.jquery.com/jquery-2.1.4.min.js" /> 
-	<!-- the following script operates for older browsers incl. mobile -->
-	<!--[if lt IE 9 & !IEMobile]>
-			<link rel="stylesheet" href="css/mobile.css" />
-			<link rel="stylesheet" href="css/laptop.css" />
-		<![endif]-->
-
-		<!--[if lt IE 9]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]--> 
+	<!--<link rel="stylesheet" href="css/default.css" media="only all and (min-width: 480px") />-->
+	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script> 
 </head>
 
 <body>
@@ -96,7 +87,6 @@
                           + "Once you have set up your Koha site, the OPAC will be accessible from here:\n"
                           + "<a target=\"_blank\" href=\"https://" + opac_server_name + "\">" + opac_server_name + "</a></p>");
               }
-
           }
 
           function component_ready(name, id)
@@ -198,4 +188,6 @@
 	
 		<div class="no-mobile"><p>&copy; Callum Dickinson and Francesca Moore 2015 <?php echo date("d/m/Y");?></p></div> <!---copyright and date will not show on mobile--->
 	</footer>
+
+        </div>
 </body>
